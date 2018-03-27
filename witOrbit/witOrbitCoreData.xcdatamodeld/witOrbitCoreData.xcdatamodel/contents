@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Group_Files" representedClassName="Group_Files" syncable="YES" codeGenerationType="class">
+        <attribute name="file_created_time" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="file_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="file_subject" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="file_title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="file_type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="group" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Groups" inverseName="files" inverseEntity="Groups" syncable="YES"/>
+    </entity>
+    <entity name="Group_Messages" representedClassName="Group_Messages" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="isSender" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="message_group_type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="message_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="message_img" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="message_text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="message_type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="group" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Groups" inverseName="messages" inverseEntity="Groups" syncable="YES"/>
+    </entity>
+    <entity name="Group_Notifications" representedClassName="Group_Notifications" syncable="YES" codeGenerationType="class">
+        <attribute name="notification_created_time" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notification_detail" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notification_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="notification_title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="group" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Groups" inverseName="notifications" inverseEntity="Groups" syncable="YES"/>
+    </entity>
+    <entity name="Groups" representedClassName="Groups" syncable="YES" codeGenerationType="class">
+        <attribute name="admins_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="created_date" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="group_description" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="group_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="group_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="img_link" optional="YES" attributeType="Binary" syncable="YES"/>
+        <relationship name="files" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Group_Files" inverseName="group" inverseEntity="Group_Files" syncable="YES"/>
+        <relationship name="lastMessage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group_Messages" syncable="YES"/>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Group_Messages" inverseName="group" inverseEntity="Group_Messages" syncable="YES"/>
+        <relationship name="notifications" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Group_Notifications" inverseName="group" inverseEntity="Group_Notifications" syncable="YES"/>
+    </entity>
+    <entity name="Personal" representedClassName="Personal" syncable="YES" codeGenerationType="class">
+        <attribute name="chat_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="chat_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="created_date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="img_link" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Personal_Files" representedClassName="Personal_Files" syncable="YES" codeGenerationType="class"/>
+    <entity name="Personal_messages" representedClassName="Personal_messages" syncable="YES" codeGenerationType="class"/>
+    <elements>
+        <element name="Group_Files" positionX="-380" positionY="320" width="128" height="135"/>
+        <element name="Group_Messages" positionX="-576" positionY="263" width="128" height="165"/>
+        <element name="Group_Notifications" positionX="-378" positionY="-63" width="128" height="120"/>
+        <element name="Groups" positionX="-630" positionY="-16" width="126" height="195"/>
+        <element name="Personal" positionX="-441" positionY="126" width="128" height="105"/>
+        <element name="Personal_Files" positionX="-423" positionY="144" width="128" height="45"/>
+        <element name="Personal_messages" positionX="-432" positionY="135" width="128" height="45"/>
+    </elements>
+</model>
