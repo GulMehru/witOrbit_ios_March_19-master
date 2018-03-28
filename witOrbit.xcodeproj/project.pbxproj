@@ -43,6 +43,8 @@
 		04B84A66203ABF40005E2A16 /* CreateGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B84A65203ABF40005E2A16 /* CreateGroupController.swift */; };
 		04BA8F0F201E385800D64013 /* CompleteProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BA8F0E201E385800D64013 /* CompleteProfileController.swift */; };
 		04C73E442068CE5100E919A0 /* GroupLinkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C73E432068CE5100E919A0 /* GroupLinkController.swift */; };
+		04C73E46206A1C7E00E919A0 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C73E45206A1C7E00E919A0 /* DetailsViewController.swift */; };
+		04C73E48206A238800E919A0 /* TableCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C73E47206A238800E919A0 /* TableCellTableViewCell.swift */; };
 		04E140A4201F38BB001B8B84 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E140A3201F38BB001B8B84 /* Extensions.swift */; };
 		04E140A6201F3B12001B8B84 /* VerifyPhoneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E140A5201F3B12001B8B84 /* VerifyPhoneController.swift */; };
 		04E140A8201F42ED001B8B84 /* ProfileCreatedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E140A7201F42ED001B8B84 /* ProfileCreatedController.swift */; };
@@ -120,6 +122,8 @@
 		04B84A65203ABF40005E2A16 /* CreateGroupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupController.swift; sourceTree = "<group>"; };
 		04BA8F0E201E385800D64013 /* CompleteProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteProfileController.swift; sourceTree = "<group>"; };
 		04C73E432068CE5100E919A0 /* GroupLinkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupLinkController.swift; sourceTree = "<group>"; };
+		04C73E45206A1C7E00E919A0 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		04C73E47206A238800E919A0 /* TableCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellTableViewCell.swift; sourceTree = "<group>"; };
 		04E140A3201F38BB001B8B84 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		04E140A5201F3B12001B8B84 /* VerifyPhoneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyPhoneController.swift; sourceTree = "<group>"; };
 		04E140A7201F42ED001B8B84 /* ProfileCreatedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreatedController.swift; sourceTree = "<group>"; };
@@ -299,6 +303,7 @@
 				04E140B12020900B001B8B84 /* VideoCell.swift */,
 				0412FE11202B00B100824206 /* ChatFeeds.swift */,
 				04C73E432068CE5100E919A0 /* GroupLinkController.swift */,
+				04C73E47206A238800E919A0 /* TableCellTableViewCell.swift */,
 				0412FE15202B28F800824206 /* ChatCell.swift */,
 				040AD93B2063956700073836 /* ContactsController.swift */,
 				042B940C2053F88100936111 /* CustomTabBarController.swift */,
@@ -319,6 +324,7 @@
 			isa = PBXGroup;
 			children = (
 				04E140AF20208E7F001B8B84 /* GroupsController.swift */,
+				04C73E45206A1C7E00E919A0 /* DetailsViewController.swift */,
 				04171DCC202342AA0026847C /* ChatRoomController.swift */,
 			);
 			name = Controller;
@@ -517,11 +523,13 @@
 				040AD93E2063959100073836 /* ContactStruct.swift in Sources */,
 				04A7EF2D206628A100D7CDC1 /* MenuCell.swift in Sources */,
 				04E140A4201F38BB001B8B84 /* Extensions.swift in Sources */,
+				04C73E46206A1C7E00E919A0 /* DetailsViewController.swift in Sources */,
 				04B84A60203AB251005E2A16 /* FloatyViewController.swift in Sources */,
 				0412FE14202B0C0700824206 /* NotificationFeed.swift in Sources */,
 				04A7EF272066288B00D7CDC1 /* UIScrollView+Extension.swift in Sources */,
 				04A7EF2F206628A100D7CDC1 /* MenuView.swift in Sources */,
 				04B84A5F203AB251005E2A16 /* Floaty.swift in Sources */,
+				04C73E48206A238800E919A0 /* TableCellTableViewCell.swift in Sources */,
 				04B84A62203AB251005E2A16 /* FloatyItem.swift in Sources */,
 				0412FE18202B3B2600824206 /* NotificationCell.swift in Sources */,
 				04A7EF252066288700D7CDC1 /* UIEdgeInsets+Equatable.swift in Sources */,

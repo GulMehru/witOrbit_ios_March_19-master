@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class GroupsController: UICollectionViewController, UICollectionViewDelegateFlowLayout, NSFetchedResultsControllerDelegate {
+class GroupsController:  UICollectionViewController, UICollectionViewDelegateFlowLayout, NSFetchedResultsControllerDelegate, UIGestureRecognizerDelegate {
 
     let floaty = Floaty()
     
@@ -64,6 +64,10 @@ class GroupsController: UICollectionViewController, UICollectionViewDelegateFlow
                 self.collectionView?.insertItems(at: [newIndexPath!])
             }))
         }
+        if type == .delete{
+            
+            self.collectionView?.deleteItems(at: [indexPath!])
+        }
     }
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         collectionView?.performBatchUpdates({
@@ -91,20 +95,18 @@ class GroupsController: UICollectionViewController, UICollectionViewDelegateFlow
         
 //        clearData()
         navigationController?.navigationBar.isTranslucent = false
-       
-        floaty.addItem("Create new group", icon: UIImage(named: "next")!, handler: { item in
-//            let createGroup = CreateGroupController()
-//            let navEditorViewController: UINavigationController = UINavigationController(rootViewController: createGroup)
-//            self.present(navEditorViewController, animated: true, completion: nil)
-//             self.present(CreateGroupController(), animated: true, completion: nil)
+        let lpgr : UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureRecognizer:)))
+        lpgr.minimumPressDuration = 0.5
+        lpgr.delegate = self
+        lpgr.delaysTouchesBegan = true
+        self.collectionView?.addGestureRecognizer(lpgr)
+         floaty.addItem("Create new group", icon: UIImage(named: "next")!, handler: { item in
+//
            self.navigationController?.pushViewController(CreateGroupController(), animated: true)
             
         })
         floaty.addItem("One-to-One Chat", icon: UIImage(named: "next")!, handler: { item in
-//            let createGroup = CreateGroupController()
-//            let navEditorViewController: UINavigationController = UINavigationController(rootViewController: createGroup)
-//            self.present(navEditorViewController, animated: true, completion: nil)
-//             self.present(CreateGroupController(), animated: true, completion: nil)
+//           
             self.navigationController?.pushViewController(CreateGroupController(), animated: true)
         })
         
@@ -114,11 +116,9 @@ class GroupsController: UICollectionViewController, UICollectionViewDelegateFlow
         collectionView?.register(VideoCell.self, forCellWithReuseIdentifier: "cellId")
         collectionView?.scrollIndicatorInsets = UIEdgeInsetsMake(50, 0, 0, 0)
         collectionView?.reloadData()
-        NotificationCenter.default.addObserver(self, selector: #selector(doYourStuff), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        
     }
-    @objc func doYourStuff(){
-       print(123)
-    }
+    
     
     let layout = UICollectionViewFlowLayout()
     
@@ -164,6 +164,7 @@ class GroupsController: UICollectionViewController, UICollectionViewDelegateFlow
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! VideoCell
         let group = fetchedResultsController.object(at: indexPath) as? Groups
+//        print(group?.group_name)
         cell.video = group
 
         return cell
@@ -177,21 +178,63 @@ class GroupsController: UICollectionViewController, UICollectionViewDelegateFlow
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 5
     }
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-       var groups : [Groups]?
-        context.delete((groups?[indexPath.row])!)
-        do {
-            try context.save()
-            groups?.remove(at: indexPath.row)
-            //                    self.ArrayOfNotifications.removeAll()
-            
-            collectionView.reloadData()
+   
+    
+    @objc func handleLongPress(gestureRecognizer : UILongPressGestureRecognizer){
+        
+        if (gestureRecognizer.state != UIGestureRecognizerState.ended){
+            return
         }
-        catch {
-            
+        let p = gestureRecognizer.location(in: self.collectionView)
+        
+        if let indexPath : NSIndexPath = (self.collectionView?.indexPathForItem(at: p))! as NSIndexPath{
+        
+            let group = fetchedResultsController.object(at: indexPath as IndexPath) as? Groups
+            let actionSheet = UIAlertController(title:"" , message: group?.group_name, preferredStyle: .actionSheet)
+            actionSheet.addAction(UIAlertAction(title: "Update Group", style: .default, handler: { (UIAlertAction) in
+                
+                let alert1:UIAlertController?
+                
+                
+                alert1 = UIAlertController(title: "Details", message: "",  preferredStyle: .alert)
+               
+                alert1?.addAction(UIKit.UIAlertAction(title: "Save", style: UIAlertActionStyle.default, handler: { alert -> Void in
+                    
+                    
+                    let controller = DetailsViewController()
+                    controller.group = self.fetchedResultsController.object(at: indexPath as IndexPath) as? Groups
+                    
+                    
+                }))
+                
+                if let window = UIApplication.shared.keyWindow{
+                    window.rootViewController?.present(alert1!, animated: true, completion: nil)
+                }
+                
+            }))
+            actionSheet.addAction(UIAlertAction(title: "Delete Group", style: .default, handler: { (UIAlertAction) in
+                
+                let group = self.fetchedResultsController.object(at: indexPath as IndexPath) as? Groups
+                context.delete(group!)
+                do {
+                try context.save()
+                
+                }
+                catch {
+                }               
+               
+            }))
+            actionSheet.addAction(UIAlertAction(title: "Cancel ", style: .cancel, handler: nil))
+            if let window = UIApplication.shared.keyWindow{
+                window.rootViewController?.present(actionSheet, animated: true, completion: nil)
+            }
         }
-        collectionView.deleteItems(at: [indexPath])
+        
+        
     }
+    
+    
+    
 }
 
 

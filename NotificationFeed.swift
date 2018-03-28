@@ -219,7 +219,6 @@ class NotificationFeed: ChatFeeds, UIGestureRecognizerDelegate {
                 do {
                     try context.save()
                     self.notifications?.remove(at: indexPath.row)
-//                    self.ArrayOfNotifications.removeAll()
                    self.fetchData()
                     self.collectionView.reloadData()
                 }
