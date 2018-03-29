@@ -135,8 +135,8 @@ class ChatFeeds: BaseClass , UICollectionViewDelegate, UICollectionViewDelegateF
         messageInputContainerView.addSubview(moreButon)
 //        sendButon.addTarget(self, action: #selector(imagePicker), for: .touchUpInside)
         sendButon.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
-//        moreButon.addTarget(self, action: #selector(imagePicker), for: .touchUpInside)
-         moreButon.addTarget(self, action: #selector(handleMore), for: .touchUpInside)
+        moreButon.addTarget(self, action: #selector(imagePicker), for: .touchUpInside)
+//         moreButon.addTarget(self, action: #selector(handleMore), for: .touchUpInside)
         messageInputContainerView.addSubview(topBorder)
         messageInputContainerView.addConstraintsWithFormat(format: "H:|[v0(20)]-8-[v1][v2(60)]|", views: moreButon,inputTextField, sendButon)
         messageInputContainerView.addConstraintsWithFormat(format: "V:|[v0]|", views: inputTextField)
@@ -175,6 +175,7 @@ class ChatFeeds: BaseClass , UICollectionViewDelegate, UICollectionViewDelegateF
     if let messageText = message.message_text{
     
     
+        print(message.message_img)
         let size = CGSize(width: 250, height: 1000)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
@@ -195,7 +196,37 @@ class ChatFeeds: BaseClass , UICollectionViewDelegate, UICollectionViewDelegateF
             cell.messageTextView.textColor = .white
             cell.bubbleImageView.tintColor = UIColor(red: 0, green: 137/255, blue: 249/255, alpha: 1)
         }
+        if let messageImage = message.message_img{
+            
+            
+            let size = CGSize(width: 250, height: 1000)
+            let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+            //        let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
+            if let estimatedFrame = UIImage(data: messageImage)?.size{
+                
+                print(estimatedFrame)
+                
+                if message.isSender == false{
+                    cell.contentView.frame = CGRect(x: 48 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
+                    
+                    cell.textBubbleView.frame = CGRect(x: 48 - 10, y: -4, width: estimatedFrame.width + 16 + 8 + 16, height: estimatedFrame.height + 20 + 6)
+                    cell.profileImageView.isHidden = false
+                    cell.bubbleImageView.image = ChatCell.grayBubbleImage
+                    cell.messageTextView.textColor = UIColor.black
+                    cell.bubbleImageView.tintColor = UIColor(white: 0.95, alpha: 1)
+                }else{
+                    cell.profileImageView.isHidden = true
+                    cell.contentView.frame = CGRect(x: frame.width - estimatedFrame.width - 16 - 16 - 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
+                    
+                    cell.textBubbleView.frame = CGRect(x: frame.width - estimatedFrame.width - 16 - 8 - 16 - 10, y: 0, width: estimatedFrame.width + 16 + 8 + 10, height: estimatedFrame.height + 20 + 6)
+                    cell.bubbleImageView.image = ChatCell.blueBubbleImage
+                    cell.messageTextView.textColor = .white
+                    cell.bubbleImageView.tintColor = UIColor(red: 0, green: 137/255, blue: 249/255, alpha: 1)
+                }
+            }
+        }
     }
+    
         return cell
     }
     
@@ -226,7 +257,7 @@ class ChatFeeds: BaseClass , UICollectionViewDelegate, UICollectionViewDelegateF
     func createMessageWithImage(Data:Data, group: Groups, minutesAgo: Double, context: NSManagedObjectContext,isSender:Bool = false ) {
         let message = NSEntityDescription.insertNewObject(forEntityName: "Group_Messages", into: context) as! Group_Messages
         
-//        message.message_text = text
+
         message.message_img = Data
         message.group = group
         message.date = Date().addingTimeInterval(-minutesAgo * 60)
@@ -383,36 +414,36 @@ class ChatFeeds: BaseClass , UICollectionViewDelegate, UICollectionViewDelegateF
             
         }
     }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
+        image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        var imageData: Data? = UIImageJPEGRepresentation( image!, 1)
+        
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let context = delegate.persistentContainer.viewContext
+
+        createMessageWithImage(Data: imageData as! Data, group: self.groups!, minutesAgo: 0, context: context)
+        do {
+            try context.save()
+
+        } catch let error {
+            print(error)
+        }
+
+
+
+
+//        openButton.setImage(image, for: .normal)
+        //         openButton.imageView?.heightAnchor.constraint(equalToConstant: 120).isActive = true
+        //         openButton.imageView?.widthAnchor.constraint(equalToConstant: 120).isActive = true
+//        openButton.imageView?.layer.cornerRadius = 60
+
+        picker.dismiss(animated: true, completion: nil)
+    }
     
-//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
-//        image = info[UIImagePickerControllerOriginalImage] as! Data
-//
-//        let delegate = UIApplication.shared.delegate as! AppDelegate
-//        let context = delegate.persistentContainer.viewContext
-//
-//        createMessageWithImage(Data: info[UIImagePickerControllerOriginalImage] as! Data, group: self.groups!, minutesAgo: 0, context: context)
-//        do {
-//            try context.save()
-//
-//        } catch let error {
-//            print(error)
-//        }
-//
-//
-//
-//
-////        openButton.setImage(image, for: .normal)
-//        //         openButton.imageView?.heightAnchor.constraint(equalToConstant: 120).isActive = true
-//        //         openButton.imageView?.widthAnchor.constraint(equalToConstant: 120).isActive = true
-////        openButton.imageView?.layer.cornerRadius = 60
-//
-//        picker.dismiss(animated: true, completion: nil)
-//    }
-    
-//    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-//        picker.dismiss(animated: true, completion: nil )
-//    }
-//
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil )
+    }
+
     
     
     }
