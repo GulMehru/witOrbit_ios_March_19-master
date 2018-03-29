@@ -201,9 +201,9 @@ class GroupsController:  UICollectionViewController, UICollectionViewDelegateFlo
                 alert1?.addAction(UIKit.UIAlertAction(title: "Save", style: UIAlertActionStyle.default, handler: { alert -> Void in
                     
                     
-                    let controller = DetailsViewController()
-                    controller.group = self.fetchedResultsController.object(at: indexPath as IndexPath) as? Groups
-                    
+//                    let controller = DetailsViewController()
+//                    controller.group = self.fetchedResultsController.object(at: indexPath as IndexPath) as? Groups
+//
                     
                 }))
                 
